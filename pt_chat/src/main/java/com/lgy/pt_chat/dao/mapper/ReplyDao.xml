@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.pt_chat.dao.ReplyDao">
+	
+	<!-- 댓글 조회 -->
+	<select id="readReply" resultType="com.lgy.pt_chat.dto.ReplyDto">
+    	select c_code, r_code, r_content, r_id, r_date, r_name from C_REPLY  WHERE c_code = #{c_code} order by r_date desc
+	</select>
+	
+	<!-- 댓글 상세보기 -->
+    <select id="getReply" resultType="com.lgy.pt_chat.dto.ReplyDto">
+        select r_code, r_content, r_id, r_date, r_name from C_REPLY WHERE r_code = #{r_code}
+    </select>
+	
+	<!-- 댓글 작성 -->
+	<insert id="insertReply" parameterType="hashmap">
+	    INSERT INTO C_REPLY (r_code, c_code, r_content, r_id, r_date, r_name) VALUES (C_REPLY_SEQ.NEXTVAL, #{c_code}, #{r_content}, #{r_id}, sysdate, #{r_name})
+	</insert>
+	
+	<!-- 대댓글 작성 -->
+<!-- 	<insert id="insertReply2" parameterType="hashmap"> -->
+<!-- 	    INSERT INTO C_REPLY (r_code, c_code, r_content, r_id, r_date, r_name ) VALUES (C_REPLY_SEQ.NEXTVAL, #{c_code}, #{r_content}, #{r_id}, sysdate, #{r_name}) -->
+<!-- 	</insert> -->
+	
+<!-- 	댓글 삭제 -->
+	 <update id="deleteReply" parameterType="hashmap">
+    	DELETE FROM C_REPLY WHERE r_code = #{r_code}
+    </update>
+	
+</mapper>

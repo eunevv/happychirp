@@ -1,0 +1,32 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.pt_chat.dao.adminDao">
+
+<!--     <insert id="aregister" parameterType="hashmap"> -->
+<!--     	insert into C_ADMIN values( #{id, jdbcType=VARCHAR} -->
+<!--     							  ,#{pwd, jdbcType=VARCHAR} -->
+<!--     							  ,#{admin, jdbcType=VARCHAR} -->
+<!--     							  ,#{name, jdbcType=VARCHAR} ) -->
+<!--     </insert> -->
+    
+	<select id="aloginYN" resultType="com.lgy.pt_chat.dto.adminDto">	
+		select * from C_ADMIN where id = #{id, jdbcType=VARCHAR}
+	</select>
+	
+	 <select resultType="com.lgy.pt_chat.dto.adminDto" id="adminInfo" parameterType="hashmap">
+		 select * from C_ADMIN where id = #{id, jdbcType=VARCHAR}
+    </select>
+	    
+	 <update id="adminUpdate" parameterType="hashmap">
+	        UPDATE C_ADMIN
+	        SET
+	            pwd = #{pwd},
+	            name= #{name},
+	            admin= #{admin}
+	        WHERE id = #{id}
+	</update>
+
+
+</mapper>

@@ -1,0 +1,36 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.pt_chat.dao.userDao">
+
+    <insert id="register" parameterType="hashmap">
+    	insert into C_USER values( #{id, jdbcType=VARCHAR}
+    							  ,#{pwd, jdbcType=VARCHAR}
+    							  ,#{email, jdbcType=VARCHAR}
+    							  ,#{name, jdbcType=VARCHAR} )
+    </insert>
+    
+	<select id="loginYN" resultType="com.lgy.pt_chat.dto.userDto">	
+		select * from C_USER where id = #{id, jdbcType=VARCHAR}
+	</select>
+	
+	 <select resultType="com.lgy.pt_chat.dto.userDto" id="userInfo" parameterType="hashmap">
+		 select * from C_USER where id = #{id, jdbcType=VARCHAR}
+    </select>
+	    
+	 <update id="userUpdate" parameterType="hashmap">
+	        UPDATE C_USER
+	        SET
+	            pwd = #{pwd},
+	            email = #{email},
+	            name= #{name}
+	        WHERE id = #{id}
+	</update>
+	
+   <select id="idCheck" resultType="int" parameterType="String">
+      select count(id) from C_USER where id=#{id, jdbcType=VARCHAR}          
+   </select>
+
+    
+</mapper>

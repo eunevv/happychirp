@@ -1,0 +1,49 @@
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.lgy.pt_chat.dao.BoardDao">
+	
+	<!-- 	게시글 작성 -->
+	<insert id="write" parameterType="hashmap">
+	    insert into C_BOARD (c_code, c_title, c_date, c_content, c_id, c_name) 
+	    values (C_BOARD_SEQ.NEXTVAL, #{c_title}, sysdate, #{c_content}, #{c_id}, #{c_name})
+	</insert>
+	
+	<!-- 게시글 목록 -->
+	<select id="list" resultType="com.lgy.pt_chat.dto.BoardDto">
+        select c_code,c_title,
+        	   to_char(c_date, 'YYYY-MM-DD') as c_date,c_name
+       	from C_BOARD
+       	order by C_DATE desc
+    </select>
+    
+    <!-- 특정 아이디를 검색하는 쿼리 -->
+	<select id="searchById" resultType="com.lgy.pt_chat.dto.BoardDto">
+	    select c_code, c_title, to_char(c_date, 'YYYY-MM-DD') as c_date, c_name
+	    from C_BOARD
+	   	where c_id = #{keyword}
+	    order by C_DATE desc
+	</select>
+  
+	<!-- 게시글 상세보기 -->
+	<select id="contentView" resultType="com.lgy.pt_chat.dto.BoardDto" parameterType="hashmap">
+        select c_code, c_id, c_title, to_char(c_date, 'YYYY-MM-DD HH24:MI') as c_date, c_content, c_name, recnt from C_BOARD WHERE c_code=#{c_code, jdbcType=VARCHAR}
+    </select>    
+    
+	<!-- 게시글 수정 -->
+    <update id="update" parameterType="hashmap">
+    	update C_BOARD set c_title=#{c_title, jdbcType=VARCHAR}, c_content=#{c_content, jdbcType=VARCHAR} where c_code=#{c_code, jdbcType=VARCHAR}
+    </update>
+    
+	<!-- 게시글 삭제 -->
+    <update id="delete" parameterType="hashmap">
+    	delete from C_BOARD where c_code=#{c_code}
+    </update>
+	
+	<!-- 게시글 상세 내 댓글 리스트 -->
+	<select id="readReply" resultType="com.lgy.pt_chat.dto.ReplyDto">
+    	select r_code, r_content, r_writer, r_date from C_REPLY  WHERE c_code = #{c_code} order by C_DATE desc
+	</select>
+
+</mapper>
